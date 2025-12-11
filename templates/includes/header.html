@@ -1,0 +1,42 @@
+{% load static %}
+
+<!-- if request.user.is_authenticated  -->
+    <div class="d-flex justify-content-between align-items-center gap-14">
+        <div class="box-account style-2">
+            <a href="{% url 'account:profile' %}">
+                <img src="{{ user.profile.image.url|default:'https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png'}}" alt="img" class="avt">
+            </a>
+            <div class="search-box box-input-field style-2">
+                <a href="{% url 'core:exchange' %}">
+                    <i class="icon-search"></i>
+                    <input type="text" placeholder="Search for crypto" required class="clear-ip">
+                    <i class="icon-close"></i>
+                </a>
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-8">
+            <a href="{% url 'core:forum' %}" class=" "> <img style="width: 35px;" src="https://icons.veryicon.com/png/o/miscellaneous/light-e-treasure-3/forum-9.png" alt="forum" > </a>
+            <a href="#notification" class="icon-noti box-noti" data-bs-toggle="modal"></a>
+
+            <button id="retranslate" class="lbtn">🌍</button>
+
+            <style>
+                .lbtn {
+                    margin-top: 0px;
+                    padding: 0px;
+                    padding-right: 0px;
+
+                    border: none;
+                    background: none;
+                    color: #fff;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-size: 24px;
+                }
+            </style>
+
+
+        </div>
+    </div>
+    
+<!--  endif  -->

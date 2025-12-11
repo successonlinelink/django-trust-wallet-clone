@@ -1,0 +1,32 @@
+{% load static %}
+
+<ul class="mt-16 grid-3 gap-12">
+    <li>
+        <a href="{% url 'core:forum' %}" class="tf-list-item d-flex flex-column gap-8 align-items-center">
+            <i class="icon icon-globe"></i>
+            Community
+        </a>
+    </li>
+    
+    <li>
+        <a href="{% url 'core:guide' %}" class="tf-list-item d-flex flex-column gap-8 align-items-center">
+            <i class="icon icon-metalogo"></i>
+            Guide
+        </a>
+    </li>
+
+    <li>
+        <a href="{% url 'core:support' %}" class="tf-list-item d-flex flex-column gap-8 align-items-center">
+            <i class="icon icon-headset"></i>
+            Support
+        </a>
+    </li>
+
+    <li>
+        <a href="{% url 'core:future' %}" class="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center">
+            <i class="icon icon-fileText"></i>
+            Futures Awareness
+        </a>
+    </li>
+    
+</ul>

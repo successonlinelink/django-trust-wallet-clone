@@ -1,0 +1,276 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap");
+        :root {
+        --Moderate-blue: hsl(238, 40%, 52%);
+        --Soft-Red: hsl(358, 79%, 66%);
+        --Light-grayish-blue: hsl(239, 57%, 85%);
+        --Pale-red: hsl(357, 100%, 86%);
+
+        --Dark-blue: hsl(212, 24%, 26%);
+        --Grayish-Blue: hsl(211, 10%, 45%);
+        --Light-gray: hsl(223, 19%, 93%);
+        --Very-light-gray: hsl(240, 1%, 15%);
+        --White: hsl(0, 0%, 100%);
+        }
+        
+        p{
+            line-height: 1.5;
+        }
+      
+        a{
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        button{
+            cursor: pointer;
+        }
+        button:hover{
+            filter: saturate(80%);
+        }
+        .bu-primary{
+            background-color: rgb(8, 58, 8);
+            color: var(--White);
+            border: none;
+            padding: .75rem 1.5rem;
+            border-radius: 4px;
+        }
+        .comment-section{
+            padding: 0 1rem;
+        }
+        .container{
+            border-radius: 2px;
+            box-shadow: 0px 0px 10px 0 rgb(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            background-color: var(--Very-light-gray);
+        }
+        .comments-wrp {
+            display: flex;
+            flex-direction: column;
+        }
+        .comment-section{
+            max-width: 75ch;
+            margin: auto;
+            margin-top: 1rem;
+        }
+        .comment{
+            margin-bottom: 1rem;
+            display: grid;
+            grid-template-areas: 
+                "score user controls"
+                "score comment comment"
+                "score comment comment"
+            ;
+            grid-template-columns: auto 1fr auto;
+            gap: 1.5rem;
+            row-gap: 1rem;
+            color: var(--Grayish-Blue);
+        }
+
+        
+        .c-text{
+            grid-area: comment;
+            width: 100%;
+        }
+
+        .c-user{
+            width: 100%;
+            grid-area: user;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .usr-name{
+            color: var(--Dark-blue);
+            font-weight: 700;
+        }
+        .usr-img{
+            height: 2rem;
+            width: 2rem;
+        }
+
+
+
+        .reply-to{
+            color: var(--Moderate-blue);
+            font-weight: 500;
+        }
+
+        .reply-input{
+            display: grid;
+            margin-bottom: 1rem;
+            grid-template-areas: "avatar input button";
+            grid-template-columns: min-content auto min-content;
+            justify-items: center;
+            gap: 1rem;
+            min-height: 9rem;
+        }
+        .reply-input img{
+            grid-area: avatar;
+            height: 2.5rem;
+            width: 2.5rem;
+        }
+        .reply-input button{
+            grid-area: button;
+            align-self: flex-start;
+        }
+        .reply-input textarea{
+            grid-area: input;
+            padding: 1rem;
+            width: 100%;
+            border: 1px solid rgb(34, 33, 33);
+            border-radius: 4px;
+            resize: none;
+        }
+
+        .this-user .usr-name::after{
+            font-weight: 400;
+            content: "you";
+            color: var(--White);
+            background-color: var(--Moderate-blue);
+            padding: 0 .4rem;
+            padding-bottom: .2rem;
+            font-size: .8rem;
+            margin-left: .5rem;
+            border-radius: 2px;
+        }
+
+        .this-user .reply{
+            display: none;
+        }
+        .this-user .edit , .this-user .delete{
+            display: flex;
+        }
+
+        @media screen and (max-width:640px) {
+            .container{
+                padding: .75rem;
+            }
+            .replies{
+                padding-left: 1rem;
+                margin-left: .5rem;
+            }
+            .comment{
+                grid-template-areas: 
+                    "user user user"
+                    "comment comment comment"
+                    "score ... controls"
+                ;
+
+                gap: .5rem;
+            }
+            .c-score{
+                flex-direction: row;
+                width: auto;
+            }
+            .reply-input{
+                grid-template-areas: 
+                    "input input input"
+                    "avatar ... button"
+                ;
+                grid-template-rows: auto min-content;
+                align-items: center;
+                gap: .5rem;
+            }
+            .reply-input img{
+                height: 2rem;
+                width: 2rem;
+            }
+            .reply-input textarea{
+                height: 6rem;
+                padding: .5rem;
+                align-self: stretch;
+            }
+        }
+
+
+    </style>
+
+    <div class="p-3">
+        <div class="reply-input-template" style="margin-top: 4rem;">
+            <div class="pb-2" style="font-size: 15px;"><center>Please drop your review.</center></div>
+            <form id="commentForm" method="POST" class="reply-input container">
+                {% csrf_token %}
+                <img src="{{ user.profile.image.url }}" alt="" class="usr-img" style="border-radius: 30px;" />
+                {{ comment_form.content }}
+                <button class="bu-primary" type="submit">SEND</button>
+            </form>
+        </div>
+
+        <div id="commentSection" class="comment-template" style="margin-bottom: 5rem;">
+            <div class="comment-wrp">
+                
+                {% for c in comments %}
+                    <div class="comment container">
+                        <div>
+                            <div class="c-user">
+                                <a href="javascript:void(0)">
+                                    <img src="{{ c.user.profile.image.url }}" alt="" class="usr-img" style="border-radius: 30px;" />
+                                </a>
+                                <span>
+                                    <p class="usr-name">{{ c.user.get_full_name|default:c.user.username }}</p>
+                                    <p class="cmnt-at">{{ c.date|timesince }} ago</p>
+                                </span>
+                            </div>
+                            <p class="mt-3">{{ c.content }}</p>
+                        </div>                       
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('commentForm');
+        const commentSection = document.getElementById('commentSection');
+
+        form?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            const response = await fetch("{% url 'core:forum' %}", {
+                method: 'POST',
+                headers: { 'X-CSRFToken': csrfToken },
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                alert(data.error);
+            } else {
+                const newComment = document.createElement('div');
+                newComment.classList.add('comment', 'container');
+                newComment.innerHTML = `
+                    <div>
+                        <div class="c-user">
+                            <a href="">
+                                <img src="${data.image}" alt="" class="usr-img" style="border-radius: 30px;" />
+                            </a>
+                            <span>
+                                <p class="usr-name">${data.user}</p>
+                                <p class="cmnt-at">${data.date}</p>
+                            </span>
+                        </div>
+                        <p class="mt-3">${data.content}</p>
+                    </div>
+                `;
+                commentSection.prepend(newComment);
+                form.reset();
+            }
+        });
+    </script>
+
+    
+{% endblock content %}
+    

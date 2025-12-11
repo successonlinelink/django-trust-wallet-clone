@@ -1,0 +1,94 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    
+<div class="header fixed-top bg-surface">
+        <a href="#" class="left back-btn"><i class="icon-left-btn"></i></a>
+    </div>
+    <div class="pt-45">
+        <div class="tf-container">
+            <form method="POST" class="mt-32 mb-16">
+                {% csrf_token %}
+
+                <div style="display: flex; justify-content: center; align-content: center; margin-bottom: 1rem;"> 
+                    <a href="/"><img src="{% static 'images/logo/48.png' %}" alt="QFS Bond"> </a>
+                </div>
+
+                <h2 class="text-center">Register QFS Bone</h2>
+
+                <br> <br>
+                    
+                <p>
+                    <!-- You can add username -->
+                    
+                    <h6><center>{{ form.email.errors }}</center></h6>
+                    
+                </p>
+                <p style="color: red; font-size: 14px; text-align: center;">
+                    <!-- You can add username -->
+                    <h6><center>{{ form.password1.errors }}</center></h6>
+                    
+                </p>
+                <p style="color: red; font-size: 14px; text-align: center;">
+                    <!-- You can add username -->
+                    <h6><center>{{ form.password2.errors }}</center></h6>
+                    
+                </p>
+
+                <p>
+                    <h6><center>{{ form.non_field_errors }}</center></h6>
+                </p>
+
+                <fieldset class="mt-16">
+                    <label class="label-ip">
+                        <p class="mb-8 text-small">Username</p>
+                        {{form.username}}
+                    </label>
+                </fieldset>
+
+                <fieldset class="mt-16">
+                    <label class="label-ip">
+                        <p class="mb-8 text-small">Email</p>
+                        {{form.email}}
+                    </label>
+                </fieldset>
+
+                <fieldset class="mt-16">
+                    <label class="label-ip">
+                        <p class="mb-8 text-small">Password</p>
+                        <div class="box-auth-pass">
+                            {{form.password1}}
+                        </div>
+                    </label>
+                </fieldset>
+
+                <fieldset class="mt-16">
+                    <label class="label-ip">
+                        <p class="mb-8 text-small">Confirm Password</p>
+                        <div class="box-auth-pass">
+                            {{form.password2}}
+                        </div>
+                    </label>
+                </fieldset>
+
+                <fieldset class="group-cb cb-signup mt-12">
+                    <input type="checkbox" class="tf-checkbox" id=" " checked readonly> 
+                    <label for="cb-ip">I agree to <span class="text-white">Terms and condition</span></label>
+                </fieldset>
+                <button type="submit" class="mt-40">Create an Account</button>
+
+                <p class="mt-20 text-center text-small">have an Account? &ensp;<a href="{% url 'userauths:login' %}">Login</a></p>
+
+            </form>
+            
+        </div>
+    </div>
+
+    <p class="mt-60">.</p>
+
+{% endblock content %}
+    
+    
+

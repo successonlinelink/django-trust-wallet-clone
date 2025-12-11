@@ -1,0 +1,40 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <div class="pb-80">
+        <!-- Actions -->
+        <div class="bg-menuDark tf-container">
+            {% include 'includes/actions.html' %}
+            
+        </div>
+        <!--  -->
+
+        <!-- Market Widegt -->
+        <!-- <div class="bg-menuDark tf-container">
+            <div class="pt-12 pb-12 mt-4">
+                -- <h5>Market</h5> --
+                 include 'includes/lin_wallet.html' 
+            
+            </div>
+        </div> -->
+
+        <!-- Market Widget II -->
+        <div class="bg-menuDark tf-container">
+            {% include 'includes/market_widgetii.html' %}
+            
+        </div>
+        <!--  -->
+
+        <!-- News -->
+        <div class="bg-menuDark tf-container">
+            {% include 'includes/news.html' %}
+
+        </div>
+    </div>
+{% endblock content %}
+    
+        
+
+        

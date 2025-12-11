@@ -1,0 +1,188 @@
+{% load static %}
+
+<style>
+
+    .crypto-widget {
+        width: 450px;
+        /* background: #1a1f24; */
+        border-radius: 0px;
+        /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.5); */
+        overflow: hidden;
+    }
+
+    .headers {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 18px;
+        /* background: #13161a; */
+        border-bottom: 1px solid #222;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .crypto-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        max-height: 80vh;
+        overflow-y: auto;
+    }
+
+    .crypto-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 18px;
+        border-bottom: 1px solid #222;
+        transition: background 0.3s;
+    }
+
+    .crypto-item:hover {
+        background: #20262b;
+    }
+
+    .crypto-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .crypto-logo {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        /* background-color: #222; */
+    }
+
+    .crypto-symbol {
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .crypto-price {
+        min-width: 100px;
+        text-align: right;
+        color: #5cb85c;
+        transition: color 0.3s;
+    }
+
+    .crypto-balance {
+        color: #9ca3af;
+        min-width: 60px;
+        text-align: right;
+    }
+
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 6px;
+    }
+
+    @media (max-width: 520px) {
+        .crypto-widget {
+            width: 350px;
+            margin-left: -1.5rem;
+        }
+    }
+
+    @media (max-width: 330px) {
+        .crypto-widget {
+            width: 300px;
+            margin-left: -1.5rem;
+        }
+    }
+
+
+</style>
+    
+    <div class="w-100" style="margin-top: rem; margin-left: 13px;">
+        
+        <div class="d-flex justify-content-center mt-4">
+            <div class="body">
+                <div class="fixed-top bg-surface d-flex justify-content-center align-items-center mt-5">
+                    <!-- <h3>Exchanges</h3> -->
+                </div>
+
+                <div class="crypto-widget">
+                    <div class="headers">
+                        <span>Asset</span>
+                        <span>Price (USDT)</span>
+                        <span>Balance</span>
+                    </div>
+                    <ul class="crypto-list" id="cryptoList"></ul>
+                </div>
+
+                <script>
+                    const cryptoList = document.getElementById("cryptoList");
+
+                    // Top 20 crypto assets
+                    const coins = [
+                        // { symbol: "BTCUSDT", name: "BTC", logo: "https://assets.coincap.io/assets/icons/btc@2x.png" },
+                        { symbol: "XRPUSDT", name: "XRP", logo: "https://assets.coincap.io/assets/icons/xrp@2x.png" },
+                        { symbol: "BNBUSDT", name: "BNB", logo: "https://assets.coincap.io/assets/icons/bnb@2x.png" },
+                        { symbol: "ETHUSDT", name: "ETH", logo: "https://assets.coincap.io/assets/icons/eth@2x.png" },
+                        { symbol: "SOLUSDT", name: "SOL", logo: "https://assets.coincap.io/assets/icons/sol@2x.png" },
+                        { symbol: "DOGEUSDT", name: "DOGE", logo: "https://assets.coincap.io/assets/icons/doge@2x.png" },
+                        { symbol: "USDTUSDT", name: "USDT", logo: "https://assets.coincap.io/assets/icons/usdt@2x.png"},
+                        { symbol: "ADAUSDT", name: "ADA", logo: "https://assets.coincap.io/assets/icons/ada@2x.png" },
+                        { symbol: "AVAXUSDT", name: "AVAX", logo: "https://assets.coincap.io/assets/icons/avax@2x.png" },
+                        { symbol: "DOTUSDT", name: "DOT", logo: "https://assets.coincap.io/assets/icons/dot@2x.png" },
+                        { symbol: "LTCUSDT", name: "LTC", logo: "https://assets.coincap.io/assets/icons/ltc@2x.png" },
+                        { symbol: "LINKUSDT", name: "LINK", logo: "https://assets.coincap.io/assets/icons/link@2x.png" },
+                        { symbol: "MATICUSDT", name: "MATIC", logo: "https://assets.coincap.io/assets/icons/matic@2x.png" },
+                        { symbol: "TRXUSDT", name: "TRX", logo: "https://assets.coincap.io/assets/icons/trx@2x.png" },
+                        { symbol: "UNIUSDT", name: "UNI", logo: "https://assets.coincap.io/assets/icons/uni@2x.png" },
+                        { symbol: "ETCUSDT", name: "ETC", logo: "https://assets.coincap.io/assets/icons/etc@2x.png" },
+                        { symbol: "BCHUSDT", name: "BCH", logo: "https://assets.coincap.io/assets/icons/bch@2x.png" },
+                        { symbol: "XLMUSDT", name: "XLM", logo: "https://assets.coincap.io/assets/icons/xlm@2x.png" },
+                        { symbol: "ATOMUSDT", name: "ATOM", logo: "https://assets.coincap.io/assets/icons/atom@2x.png" },
+                        { symbol: "NEARUSDT", name: "NEAR", logo: "https://assets.coincap.io/assets/icons/near@2x.png" },
+                        { symbol: "APTUSDT", name: "APT", logo: "https://assets.coincap.io/assets/icons/apt@2x.png" },
+                    ];
+
+                    // Create list items
+                    coins.forEach((coin) => {
+                        const li = document.createElement("li");
+                        li.className = "crypto-item";
+                        li.innerHTML = `
+                                <div class="crypto-left">
+                                    <img src="${coin.logo}" alt="${coin.name}" class="crypto-logo">
+                                    <span class="crypto-symbol">${coin.name}</span>
+                                </div>
+                                <span class="crypto-price" id="price-${coin.symbol}">Loading...</span>
+                                <span class="crypto-balance">0.00</span>
+                            `;
+                        cryptoList.appendChild(li);
+                    });
+
+                    // Connect to Binance WebSocket
+                    const streams = coins.map((c) => c.symbol.toLowerCase() + "@trade").join("/");
+                    const ws = new WebSocket(`wss://stream.binance.com:9443/stream?streams=${streams}`);
+
+                    ws.onmessage = (event) => {
+                        const data = JSON.parse(event.data);
+                        const { s: symbol, p: price } = data.data;
+                        const priceElement = document.getElementById(`price-${symbol}`);
+
+                        if (priceElement) {
+                            const oldPrice = parseFloat(priceElement.textContent);
+                            const newPrice = parseFloat(price).toFixed(2);
+
+                            if (!isNaN(oldPrice)) {
+                                if (newPrice > oldPrice) priceElement.style.color = "#5cb85c";
+                                // Green if up
+                                else if (newPrice < oldPrice) priceElement.style.color = "#d9534f"; // Red if down
+                            }
+
+                            priceElement.textContent = newPrice;
+                        }
+                    };
+
+                    ws.onerror = () => console.error("WebSocket error");
+                </script>
+            </div>
+        </div>
+        <!-- <p style="margin-top: 5rem;"></p> -->
+    </div>

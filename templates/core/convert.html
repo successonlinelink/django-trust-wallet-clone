@@ -1,0 +1,88 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="header fixed-top bg-surface d-flex justify-content-center align-items-center">
+        <a href="/" class="left back-btn"><i class="icon-left-btn"></i></a>
+        <h3>Convert </h3>
+        <a href="javascript:void(0);" class="right"><i class="icon-question"></i></a>
+    </div>
+
+    
+    <div class="pt-45 pb-16">
+        <div class="tf-container">
+            <h4 class="mt-5"></h4>
+            <form method="POST" class="mt-20">
+                {% csrf_token %}
+
+                <fieldset>
+                    <label class="mb-8">From</label>
+                    <div class="select-wrapper">
+                        <select class="tf-select">
+                            <option>Bitcoin(BTC)</option>
+                            <option>Ethereum(ETH)</option>
+                            <option>Ripple(XRP)</option>
+                            <option>Tether(USDT)</option>
+                            <option>Dogecoin(DOGE)</option>
+                            <option>Litecoin(LTC)</option>
+                            <option>Shiba(SHIB)</option>
+                            <option>Steller(XLM)</option>
+
+                        </select>
+                    </div>
+                </fieldset>
+
+                <p class="d-flex justify-content-center mt-3">
+                    <i class="icon icon-swap" style="font-size: 40px;"></i>
+                </p>
+
+                <fieldset class="mt-10">
+                    <label class="mb-8">To</label>
+                    <div class="select-wrapper" data-bs-toggle="modal" data-bs-target="#identificationID">
+                        <p class="tf-select dom-text">Bitcoin(BTC)</p>
+                    </div>
+                </fieldset>
+                
+                <fieldset class="mt-16">
+                    <label class="label-ip">
+                        <p class="mb-8 text-small">Amount (USD)</p>
+                        <input type="number" name="convert" placeholder="0.00" required>
+                    </label>
+                </fieldset>
+
+                <button type="submit" class="tf-btn lg primary mt-40">Proceed</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal fade action-sheet" id="identificationID">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span>Type of Network</span>
+                    <span class="icon-cancel" data-bs-dismiss="modal"></span>
+                </div>
+                <ul class="mt-20 pb-16">
+                    <li class="line-bt" data-bs-dismiss="modal">
+                        <div class="d-flex justify-content-between align-items-center gap-8 text-large item-check active dom-value">
+                            Bitcoin(BTC) <i class="icon icon-check-circle"></i> 
+                        </div>
+                    </li>
+
+                    <li class="line-bt" data-bs-dismiss="modal"><div class="d-flex  justify-content-between gap-8 text-large item-check dom-value">Ethereum(ETH) <i class="icon icon-check-circle"></i></div></li>
+                    <li class="line-bt" data-bs-dismiss="modal"><div class="d-flex  justify-content-between gap-8 text-large item-check dom-value">Ripple(XRP) <i class="icon icon-check-circle"></i></div></li>
+                    <li class="line-bt" data-bs-dismiss="modal"><div class="d-flex  justify-content-between gap-8 text-large item-check dom-value">Tether(USDT) <i class="icon icon-check-circle"></i></div></li>
+                    <li class="line-bt" data-bs-dismiss="modal"><div class="d-flex  justify-content-between gap-8 text-large item-check dom-value">Dogecoin(DOGE) <i class="icon icon-check-circle"></i></div></li>
+                    <li class="line-bt" data-bs-dismiss="modal"><div class="d-flex  justify-content-between gap-8 text-large item-check dom-value">Litecoin(LTC) <i class="icon icon-check-circle"></i></div></li>
+                    <li class="line-bt" data-bs-dismiss="modal"><div class="d-flex  justify-content-between gap-8 text-large item-check dom-value">Shiba(SHIB) <i class="icon icon-check-circle"></i></div></li>
+                    <li class="line-bt" data-bs-dismiss="modal"><div class="d-flex  justify-content-between gap-8 text-large item-check dom-value">Steller(XLM) <i class="icon icon-check-circle"></i></div></li>
+
+                </ul>
+            </div> 
+        </div>
+    </div>
+    
+{% endblock content %}
+    

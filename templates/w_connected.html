@@ -1,0 +1,70 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+ <!-- <title>Redirecting...</title> -->
+    <script type="text/javascript">
+        // Wait for 15 seconds before redirecting
+        setTimeout(function() {
+            window.location.href = "{{ next_url }}";
+        }, 5000); // 15000 milliseconds = 15 seconds
+    </script>
+
+
+    <div class="bg-camera">
+        <div class="tf-container">
+            <div class="pt-30 pb-30">
+                <div class="success_box">
+
+                    <div class="icon-1 ani3">
+                        <span class="circle-box lg bg-circle check-icon bg-primary"></span>
+                    </div>
+
+                    <!-- <div class="icon-2 ani5">
+                        <span class="circle-box md bg-primary"></span>
+                    </div> -->
+
+                    <!-- <div class="icon-3 ani8">
+                        <span class="circle-box md bg-primary"></span>
+                    </div> -->
+
+                    <!-- <div class="icon-4 ani2">
+                        <span class="circle-box sm bg-primary"></span>
+                    </div> -->
+
+                    <h2 class="text-surface text-center">Successful!</h2>
+                    
+                    <p><img src="https://64.media.tumblr.com/1f6d94c8a4bea0895b65745ab6fe17a0/tumblr_oliq1n5fND1qbv78mo1_500.gif" alt="" srcset=""></p>
+                    
+                    <p class="text-center text-success" style="font-size: 15px;">
+                        Hi, {{request.user}}
+                    </p>
+                    <p class="text-medium text-center mt-8 mb-8">
+                        Your Wallet has been Connected.
+                    </p>
+                </div>
+            </div>           
+            <p class="text-center">
+                Please wait, you will be redirected shortly...
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Countdown timer
+        var seconds = 5;
+        var countdownElement = document.getElementById('countdown');
+        var countdownInterval = setInterval(function() {
+            seconds--;
+            countdownElement.textContent = seconds;
+            if (seconds <= 0) {
+                clearInterval(countdownInterval);
+            }
+        }, 1000);
+    </script>
+
+{% endblock content %}
+    

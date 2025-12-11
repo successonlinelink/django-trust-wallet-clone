@@ -1,0 +1,105 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+
+    <div class="header absolute" style="margin-top: 3rem;">
+        <div class="tf-container">
+            <div class="d-flex justify-content-between align-items-center mt-12">
+                <a href="{{ request.META.HTTP_REFERER }}" class="box-icon back-btn"><i class="icon-left-btn"></i></a>
+
+                <a style="width: 80px;" href="{% url 'core:buy_other' %}" class="box-icon ">Buy Now</a>
+            </div>
+        </div>
+        
+    </div>
+
+    <div class=" " style="margin-top: 7rem;">
+        
+        <div style="">
+            <p class="d-flex justify-content-center">
+                <img src="{{qrcode.qrcode.url}}" alt="images" style="width: 200px; border-radius: 5px;" >
+            </p>
+            <p class="text-center mt-1" style="font-size: 10px;">
+                Scan QR code Above to get Address.
+            </p>
+        </div>
+
+    </div>
+
+    <p class="mt-1">
+        <li class="d-flex justify-content-center">
+            <a href="javascript:void(0)" class="list-item-social">
+                <span style="word-wrap: break-word; width: 220px;">{{qrcode.token}} </span>               
+                <img id="copyBtn" src="https://cdn-icons-png.flaticon.com/128/12109/12109063.png" alt="" style="width: 20px; ">
+            </a>
+        </li>
+        <p class="text-center mt-2">
+            Deposit Address
+        </p>
+    </p>
+
+    <div class="pt-10 pb-16">
+        <div class="tf-container">
+            <!-- <a href="#" class="tag-xs primary round-1"></a> -->
+            <div class="d-flex justify-content-between align-items-center mt-12">
+                <ul class="box-user-blog">
+                    <li class="d-flex align-items-center">
+                        <img src="{{qrcode.logo.url}}" alt="{{qrcode.wallet_name}}" class="avt">
+                        &ensp;
+                    </li>
+                    
+                </ul>
+                <a href="#" class="tag-xs primary round-1">{{qrcode.wallet_name}}</a>
+            </div>
+
+            <ul class="d-flex gap-6 mt-12 flex-wrap">
+                <li>
+                    <a href="#" class="list-item-social">
+                        Transaction Id: 
+                        <span style="text-transform: uppercase;">{{qrcode.tid}}</span>
+                    </a>
+                </li>
+                
+
+            </ul>
+            <h5 class="mt-12 text-danger">Note:</h5>
+            <p class="mt-8 ">
+                1. Send only {{qrcode.wallet_name}} to this wallet address.  Sending any other Coins May result in permanent asset loss. 
+            </p>
+
+            <p class="mt-8 ">
+                2. Ensure the Security of your Device browser. Do not expose your account login details.  
+            </p>
+
+            <p class="mt-8 ">
+                3. Deposit Requires 2~15 network confirmations to Arrive in your qfsbackupledger Account.
+            </p>
+
+        </div>
+    </div>
+
+    <div  style="padding-bottom: 5rem;">
+        
+    </div>
+
+    <script>
+        async function copyText(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                alert('Copied to clipboard:', text);
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+        }
+
+        document.getElementById('copyBtn').addEventListener('click', () => {
+            copyText('{{qrcode.token}} ');
+        });
+    </script>
+
+    
+{% endblock content %}
+    

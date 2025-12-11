@@ -1,0 +1,207 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+      <style>
+
+          body {
+            margin: 0;
+            padding: 0;
+            background-color: none;
+            color: #f5f5f5;
+            font-family: "Poppins", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding-top: 40px;
+          }
+
+          #crypto-widget {
+            background-color: #0d0d0d;
+            padding: 25px 15px;
+            border-radius: 14px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.8);
+            width: 100%;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+          }
+
+          h2 {
+            text-align: center;
+            color: #00ffcc;
+            margin-bottom: 15px;
+          }
+
+          #search-box {
+            width: 100%;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: none;
+            outline: none;
+            background: #1a1a1a;
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 20px;
+          }
+
+          #search-box::placeholder {
+            color: #888;
+          }
+
+          .coin {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+          }
+
+          .coin:last-child {
+            border-bottom: none;
+          }
+
+          .coin-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+          }
+
+          .coin-left img {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+          }
+
+          .coin-name {
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            font-size: 10px;
+          }
+
+          .coin-right {
+            text-align: right;
+          }
+
+          .price {
+            font-weight: 400;
+            font-size: 10px;
+          }
+
+          .up {
+            color: #00ff99;
+          }
+
+          .down {
+            color: #ff4d4d;
+          }
+
+          small {
+            font-size: 0.8rem;
+            opacity: 0.8;
+          }
+
+          .no-results {
+            text-align: center;
+            margin-top: 10px;
+            color: #888;
+          }
+
+          ::-webkit-scrollbar {
+            width: 8px;
+          }
+
+          ::-webkit-scrollbar-thumb {
+            background-color: #333;
+            border-radius: 10px;
+          }
+
+          @media (max-width: 600px) {
+            #crypto-widget {
+              padding: 20px;
+            }
+            .coin-name {
+              font-size: 12px;
+            }
+            .price {
+              font-size: 12px;
+            }
+          }
+        </style>
+
+        <div id="crypto-widget">
+          <!-- <h2> Live Crypto Prices </h2> -->
+          <input style="margin-top: 2rem;" type="text" id="search-box" placeholder="Search by name or symbol...">
+          <div id="crypto-list">Loading...</div>
+        </div>
+
+        <script>
+        let allCoins = [];
+
+        async function fetchTop100() {
+          try {
+            const res = await fetch(
+              "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1"
+            );
+            const data = await res.json();
+            allCoins = data;
+            displayCoins(allCoins);
+          } catch (err) {
+            console.error("Error fetching crypto data:", err);
+            document.getElementById("crypto-list").innerHTML =
+              "<p>⚠️ Failed to load data.</p>";
+          }
+        }
+
+        function displayCoins(data) {
+          const container = document.getElementById("crypto-list");
+          container.innerHTML = "";
+
+          if (data.length === 0) {
+            container.innerHTML = '<div class="no-results">No matching coins found</div>';
+            return;
+          }
+
+          data.forEach((coin) => {
+            const price = coin.current_price.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            });
+            const change = coin.price_change_percentage_24h?.toFixed(2) || 0;
+            const direction = change >= 0 ? "up" : "down";
+
+            container.innerHTML += `
+              <div class="coin">
+                <div class="coin-left">
+                  <img src="${coin.image}" alt="${coin.name}">
+                  <div class="coin-name"> ${coin.name} (${coin.symbol.toUpperCase()})</div>
+                </div>
+                <div class="coin-right">
+                  <div class="price ${direction}">$${price}</div>
+                  <small class="${direction}">${change}%</small>
+                </div>
+              </div>
+            `;
+          });
+        }
+
+        // Search filter
+        document.getElementById("search-box").addEventListener("input", (e) => {
+          const query = e.target.value.toLowerCase();
+          const filtered = allCoins.filter(
+            (coin) =>
+              coin.name.toLowerCase().includes(query) ||
+              coin.symbol.toLowerCase().includes(query)
+          );
+          displayCoins(filtered);
+        });
+
+        fetchTop100();
+        setInterval(fetchTop100, 10000);
+        </script>
+
+{% endblock content %}
+    

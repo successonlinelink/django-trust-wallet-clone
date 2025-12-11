@@ -1,0 +1,37 @@
+{% load static %}
+
+
+<!--  if request.user.is_authenticated  -->
+    <ul class="inner-bar">
+
+        <li class="active">
+            <a href="{% url 'core:index' %}">
+                <i class="icon icon-home2"></i>
+                
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'core:exchange' %}">
+                <i class="icon icon-exchange"></i>
+                
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'core:buy_page' %}">
+                <i class="icon icon-wallet"></i>
+                
+            </a>
+        </li>
+        
+        <li>
+            <a href="{% url 'account:account' %}">
+                <i class="icon icon-robot"></i>
+                
+            </a>
+        </li>
+
+    </ul>
+<!--  endif  -->
+    

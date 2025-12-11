@@ -1,0 +1,54 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="pt-45 pb-16">
+        <div class="tf-container">
+            <ul class="mt-4">
+
+                <li class="mt-16" style="margin-top: 3rem;">
+                    <a href="#notiAccount" class="d-flex align-items-center" data-bs-toggle="modal">
+                        <div class="inner">
+                            <h5>Delete account</h5>
+                            <p class="mt-4 text-large text-secondary">
+                                Once you Delete your account, it will be deleted permanently and cannot be restored.
+                            </p>
+                        </div>
+                        <i class="icon-arr-right fs-12 text-secondary"></i>
+                    </a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <!-- modal notification account -->
+    <div class="modal fade modalCenter" id="notiAccount">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content modal-sm">
+                <div class="p-16 line-bt">
+                    <h4 class="text-center">Are you sure?</h4>
+                    <p class="mt-2 text-center text-large">Your account will be Deleted permanently and cannot be recovered. </p>
+                </div>
+                <!-- <a href="tell-us-more.html" class="text-center text-button fw-6 p-12 line-bt">Instead, let's freeze</a> -->
+
+                <form method="POST" autocomplete="off">
+
+                    {% csrf_token %}
+
+                    <div class="p-3">
+                        <button class="p-2" style="background-color: rgb(117, 3, 3); border: none;" type="submit" value="Delete account" >Continue</button>
+                    </div>
+
+                </form>
+
+                <!-- <a href="log-in.html" class="text-center text-button fw-6 p-12 line-bt">Continue</a> -->
+                <a href="javascript:void(0);" class="text-center text-button fw-6 p-12 text-green" data-bs-dismiss="modal">Cancel</a>
+            </div>
+        </div>
+    </div>
+   
+{% endblock content %}
+    

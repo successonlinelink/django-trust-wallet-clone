@@ -1,0 +1,82 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+   <div class="header fixed-top bg-surface d-flex justify-content-center align-items-center">
+        <a href="javascript:void(0);" class="left back-btn"><i class="icon-left-btn"></i></a>
+        <h3>Send</h3>
+    </div>
+
+    <form method="POST" style="margin-top: 7rem;">
+        {% csrf_token %}
+
+        <div class="" style="margin-top: 2rem; margin-bottom: 3rem;">
+            <div class="tf-container">
+                <div class="mt-4 accent-box-v2 bg-menuDark">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span>Your Balance:</span>
+                        <h6>${{user.profile.balance|intcomma}}</h6>
+                    </div>
+
+                    <div class="mt-12 box-input-field">
+                        <label class="mb-2" for="">Wallet Address</label>
+                        {{send_money.w_address}}
+                    </div>
+
+                    <div class="mt-12 box-input-field">
+                        <label class="mb-2" for="">Amount</label>
+                        {{send_money.amount}}
+                    </div>
+
+                    <div class="mt-20 box-input-field">
+                        <label class="mb-2" for="">Note/Optional</label>
+                        {{send_money.note}}
+                    </div>
+
+                </div>
+
+                <div class="mt-3">
+                    <div class="inner-bar">
+                        <button type="submit" class="tf-btn lg primary">Confirm Transfer</button>
+                    </div>
+                </div>                     
+
+            </div> 
+        </div>      
+
+    </form>
+
+    <div class="mt-4 accent-box-v2 bg-menuDark">
+        <p>
+            <p style="margin-bottom: 10px; font-size: 18px;">Notes:</p>
+            
+            <p style="margin-bottom: 10px;">
+                1. The withdrawal time is 0~24 hours, and the payment time is 0~36 hours. The number of withdrawals is twice a day.
+            </p>
+
+            <p style="margin-bottom: 10px;">
+                2. Please confirm whether the withdrawal address exists or is activated, otherwise the withdrawal will fail and the assets cannot be retrieved
+            </p>
+
+            <p style="margin-bottom: 10px;">
+                3. In order to ensure the safety of funds, when your account security policy changes or password changes, we will manually review the withdrawal, please wait patiently or consult online customer service
+            </p>
+
+            <p style="margin-bottom: 10px;">
+                4. Please make sure that your computer and browser are safe to prevent information from being tampered with or leaked
+            </p>
+
+            <p style="margin-bottom: 10px;">
+                5. The handling fee will be deducted from the order initiated
+            </p>
+
+            <p style="margin-bottom: 10px;">
+                6. Your Withdrawal will be sent to your provided wallet address within 0~36 hours after submitting the withdrawal application. If there is a block congestion, there may be a delay in the account, please be aware
+            </p>
+        </p>
+    </div>
+    
+{% endblock content %}
+    

@@ -1,0 +1,55 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    
+    <div class="pt-45 pb-16">
+        <div class="tf-container">
+            <div class="mt-40">
+
+                <h3>Account Created</h3>
+                
+                <ul class="mt-20">
+                    <li class="d-flex gap-8">
+                        <p class="text-large">
+                            Hi, 
+                        </p>
+                    </li>
+
+                    <li class="mt-16 d-flex gap-8">
+                        <p class="text-large">Your account has been created successfully </p>
+                    </li>
+
+                    <li class="mt-16 d-flex gap-8">
+                        <i class="icon-round-check xs bg-white flex-shrink-0"></i>
+                        <p class="text-large"> Email:<span class="" style="color: green;"> &nbsp;&nbsp; {{user.email}} </span>  </p>
+                    </li>
+
+                    <li class="mt-16 d-flex gap-8">
+                        <i class="icon-round-check xs bg-white flex-shrink-0"></i>
+                        <p class="text-large"> Username:<span class="" style="color: green; text-transform: capitalize;"> &nbsp; &nbsp; {{request.user}}</span>   </p>
+                    </li>
+                    
+                    <li class="mt-16 d-flex gap-8">
+                        <p class="text-large"> Details of your registration has been sent to your email address. </p>
+
+                    </li>
+
+                    <!-- <li class="mt-16 d-flex gap-8">
+                        <i class="icon-round-check xs bg-white flex-shrink-0"></i>
+                        <p class="text-large">
+                            Please make that your details
+                        </p>
+                    </li> -->
+
+                </ul>
+                <a href="/" class="mt-40 tf-btn lg">Done&nbsp; > </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+    
+    
+

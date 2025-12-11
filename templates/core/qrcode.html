@@ -1,0 +1,44 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="" id="recipient" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="header fixed-top bg-surface d-flex justify-content-center align-items-center">
+                    <a href="{{ request.META.HTTP_REFERER}}" class="left" ><i class="icon-left-btn"></i></a>
+                    <h3>Wallets</h3>
+                </div>
+
+                <div class="overflow-auto pt-45 pb-16" style="background-color: black;">
+                    <div class="tf-container">
+                        
+                        <ul class="mt-12 grid-4 rg-16 cg-25">
+                            
+                            {% for q in qrcode %}
+                                <li>
+                                    <a href="{% url 'core:qrcode_detail' q.tid %}" class="tf-list-item d-flex flex-column gap-4 align-items-center">
+                                        <img src="{{q.logo.url}}" alt="img" class="box-round">
+                                        <p class="text-center">{{q.wallet_name}}</p>
+                                    </a>
+                                </li>
+                            {% endfor %}                            
+
+                        </ul>
+
+                        <p class="p-3 text-center mb-5">
+                            Make sure you put the correct details...
+                        </p>
+
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    
+{% endblock content %}
+    

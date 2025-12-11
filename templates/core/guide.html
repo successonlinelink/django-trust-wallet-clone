@@ -1,0 +1,73 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="header fixed-top bg-surface d-flex justify-content-center align-items-center">
+        <a href="{{ request.META.HTTP_REFERER|default:'blog:index' }}" class="left back-btn"><i class="icon-left-btn"></i></a>
+        <h3> User Guide </h3>
+    </div>
+    <div class="pt-45 pb-16">
+        <div class="tf-container">
+            <h4 class="mt-4"> </h4>
+            <ul class="mt-20">
+
+                <li class="tf-list-item-v2 mt-20 bg-menuDark">
+                    <label class="text-large text-white flex-grow-1" for="radio1">
+                        <h6 class="mb-2">Create an Account</h6>
+                        <p class="text-muted" style="font-size: 13px; line-height: 17px;">
+                            Simply create an account by using the registration button in the home.
+                        </p>
+                    </label>
+                    <!-- <input type="radio" class="tf-radio flex-shrink-0" name="radio" id="radio1" checked> -->
+
+                </li>
+
+                <li class="tf-list-item-v2 mt-20 bg-menuDark">
+                    <label class="text-large text-white flex-grow-1" for="radio2">
+                        <h6 class="mb-2">Verify Account</h6>
+                        <p class="text-muted" style="font-size: 13px; line-height: 17px;">
+                            Activatye your account using the activation code sent to your email address.
+                        </p>
+                    </label>
+                    <!-- <input type="radio" class="tf-radio flex-shrink-0" name="radio" id="radio2">  -->
+
+                </li>
+
+                <li class="tf-list-item-v2 mt-20 bg-menuDark">
+                    <label class="text-large text-white flex-grow-1" for="radio3">
+                        <h6 class="mb-2">Recharge</h6>
+                        <p class="text-muted" style="font-size: 13px; line-height: 17px;">
+                            Make a deposit into your wallet using any of the available deposit methods.
+                        </p>
+                    </label>
+                    <!-- <input type="radio" class="tf-radio flex-shrink-0" name="radio" id="radio3">  -->
+                </li>
+
+                <li class="tf-list-item-v2 mt-20 bg-menuDark">
+                    <label class="text-large text-white flex-grow-1" for="radio3">
+                        <h6 class="mb-2">Buy Assets/Trade</h6>
+                        <p class="text-muted" style="font-size: 13px; line-height: 17px;">
+                            Safelock your funds to earn profits.
+                        </p>
+                    </label>
+                    <!-- <input type="radio" class="tf-radio flex-shrink-0" name="radio" id="radio3">  -->
+                </li>
+
+                <li class="tf-list-item-v2 mt-20 bg-menuDark">
+                    <label class="text-large text-white flex-grow-1" for="radio3">
+                        <h6 class="mb-2">Withdraw</h6>
+                        <p class="text-muted" style="font-size: 13px; line-height: 17px;">
+                            Withdraw your profits/capital anytime.
+                        </p>
+                    </label>
+                    <!-- <input type="radio" class="tf-radio flex-shrink-0" name="radio" id="radio3">  -->
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+    
+{% endblock content %}
+    

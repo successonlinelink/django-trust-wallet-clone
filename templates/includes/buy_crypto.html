@@ -1,0 +1,17 @@
+{% load static %}
+
+<ul class="mt-16 grid-3 gap-12">
+    <li>
+        <a href="{% url 'core:buy_other' %}" class="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center" >
+            <i class="icon icon-currency"></i>
+            Currency 
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'core:convert' %}" class="tf-list-item d-flex flex-column gap-8 align-items-center text-break text-center">
+            <i class="icon icon-convert"></i>
+                Exchange
+        </a>
+    </li>
+    
+</ul>

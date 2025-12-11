@@ -1,0 +1,68 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <!-- recipient -->
+    <div class="" id="recipient" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="header fixed-top bg-surface d-flex justify-content-center align-items-center">
+                    <a href="{{ request.META.HTTP_REFERER }}" class="left" ><i class="icon-left-btn"></i></a>
+                    <!-- <h3>Buy From Our Trusted Vendors.</h3> -->
+                </div>
+
+                <div class="overflow-auto pt-45 pb-16" style="background-color: black;">
+                    <div class="tf-container">
+
+                        <p class="p-3 text-center">
+                            Buy From Our Trusted Vendors.
+                        </p>
+
+                        <ul class="mt-12 grid-4 rg-16 cg-25">
+                            
+                            <li>
+                                <a href="https://www.moonpay.com/buy/btc" target="_blank" class="tf-list-item d-flex flex-column gap-4 align-items-center">
+                                    <img src="https://payload-marketing.moonpay.com/api/media/file/btjz4jvcgx-71SsEQVxU8Wc2lI6OZ7h9A" alt="img" class="box-round">
+                                    <p class="text-center"> MoonPay </p>
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a href="https://transak.com/buy/btc" target="_blank" class="tf-list-item d-flex flex-column gap-4 align-items-center">
+                                    <img src="https://pbs.twimg.com/profile_images/1711650788479520768/z_DG8Nwa_400x400.jpg" alt="img" class="box-round">
+                                    <p class="text-center"> Transak </p>
+                                </a>
+                            </li>
+                            
+                            <li>
+                                <a href="https://www.simplex.com/buy-crypto" target="_blank" class="tf-list-item d-flex flex-column gap-4 align-items-center">
+                                    <img src="https://simplexprd.wpenginepowered.com/scorpius/uploads/2022/07/Simplex-Nuvei-Logo-Negative.png" alt="img" class="box-round">
+                                    <p class="text-center"> Simplex </p>
+                                </a>
+                            </li>
+                            
+                            <!-- <li>
+                                <a href=" " target="_blank" class="tf-list-item d-flex flex-column gap-4 align-items-center">
+                                    <img src=" " alt="img" class="box-round">
+                                    <p class="text-center"> title </p>
+                                </a>
+                            </li> -->
+
+                        </ul>
+
+                        <p class="p-3 text-center mb-5">
+                            <!-- Make sure you put the correct details... -->
+                        </p>
+
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    
+{% endblock content %}
+    

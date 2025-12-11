@@ -1,0 +1,361 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+{% load humanize %}
+
+
+
+{% block content %}
+
+    <style>
+        :root {
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            color: #0f172a;
+            --glass: rgba(255, 255, 255, 0.06);
+        }
+        body {
+            background: ;
+            color: #e6eef8;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 28px;
+        }
+        .card {
+            width: 820px;
+            max-width: 100%;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
+            border-radius: 7px;
+            box-shadow: 0 6px 24px rgba(2, 6, 23, 0.6);
+            padding: 22px;
+        }
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 20px;
+            letter-spacing: -0.2px;
+        }
+        p.lead {
+            margin: 0 0 16px 0;
+            color: #bcd3ef;
+            font-size: 13px;
+        }
+        .controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .control {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 10px;
+            border-radius: 10px;
+            min-width: 140px;
+            flex: 1;
+        }
+        label {
+            font-size: 12px;
+            color: #a9c0e6;
+            display: block;
+            margin-bottom: 6px;
+        }
+        input[type="range"] {
+            width: 100%;
+        }
+        button {
+            background: linear-gradient(90deg, #0ea5a3, #7dd3fc);
+            color: #022;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(14, 165, 163, 0.12);
+        }
+        button.stop {
+            background: linear-gradient(90deg, #ef4444, #fb923c);
+            color: white;
+            box-shadow: 0 6px 18px rgba(239, 68, 68, 0.12);
+        }
+        .status {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+        .stat {
+            background: rgba(0, 0, 0, 0.18);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        .monosmall {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+            font-size: 12px;
+            color: #dff6ff;
+            word-break: break-all;
+        }
+        .footer {
+            margin-top: 14px;
+            font-size: 12px;
+            color: #9fb8db;
+        }
+        .small-muted {
+            font-size: 12px;
+            color: #8ea6d7;
+        }
+    </style>
+    
+    <div class="card mt-5 mb-5" role="main" aria-label="Simulated Bitcoin Miner">
+        <h1> ${{ user.profile.balance|intcomma }} </h1>
+        <!-- <p class="lead">
+            This is a harmless browser simulation of proof-of-work: workers compute SHA-256 hashes of nonces and look for outputs with a number of leading hex zeros (difficulty). This will <strong>not</strong> mine real Bitcoin.
+        </p> -->
+
+        <div class="controls" aria-hidden="false">
+            <div class="control">
+                <label for="difficulty">Difficulty (leading hex zeros): <span id="diffVal">3</span></label>
+                <input id="difficulty" type="range" min="1" max="6" value="3" />
+                <div class="small-muted">Higher → much slower, exponential work.</div>
+            </div>
+
+            <div class="control">
+                <label for="threads">Worker threads: <span id="threadsVal">2</span></label>
+                <input id="threads" type="range" min="1" max="6" value="2" />
+                <div class="small-muted">More workers try nonces in parallel (simulated concurrency).</div>
+            </div>
+
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <button id="startBtn" >Start</button>
+                <button id="stopBtn" class="stop" disabled>Stop</button>
+            </div>
+        </div>
+
+        <div class="status">
+            <div class="stat">
+                <div class="small-muted">Attempts (total)</div>
+                <div id="attempts" class="monosmall">0</div>
+            </div>
+            <div class="stat">
+                <div class="small-muted">Hashes / s (approx)</div>
+                <div id="hs" class="monosmall">0 H/s</div>
+            </div>
+            <div class="stat">
+                <div class="small-muted">Last nonce</div>
+                <div id="nonce" class="monosmall">—</div>
+            </div>
+            <div class="stat">
+                <div class="small-muted">Last hash</div>
+                <div id="lasthash" class="monosmall">—</div>
+            </div>
+            <div class="stat">
+                <div class="small-muted">Blocks (simulated) found</div>
+                <div id="blocks" class="monosmall">0</div>
+            </div>
+            <div class="stat">
+                <div class="small-muted">Worker status</div>
+                <div id="wstatus" class="monosmall">stopped</div>
+            </div>
+        </div>
+
+        <!-- <p class="footer">Notes: Real Bitcoin mining requires specialized ASICs and network connectivity. This demo only demonstrates the proof-of-work concept locally.</p> -->
+    </div>
+
+    <script>
+        /*
+            Simulated miner using Web Workers (created from blob).
+            - Uses crypto.subtle.digest to compute SHA-256 of "block header" string + nonce.
+            - Checks for leading hex zeros equal to difficulty.
+            - Does NOT connect to any real network or pool.
+        */
+
+        const startBtn = document.getElementById("startBtn");
+        const stopBtn = document.getElementById("stopBtn");
+        const attemptsEl = document.getElementById("attempts");
+        const hsEl = document.getElementById("hs");
+        const nonceEl = document.getElementById("nonce");
+        const lasthashEl = document.getElementById("lasthash");
+        const blocksEl = document.getElementById("blocks");
+        const wstatusEl = document.getElementById("wstatus");
+
+        const diffInput = document.getElementById("difficulty");
+        const threadsInput = document.getElementById("threads");
+        const diffVal = document.getElementById("diffVal");
+        const threadsVal = document.getElementById("threadsVal");
+
+        diffInput.oninput = () => (diffVal.textContent = diffInput.value);
+        threadsInput.oninput = () => (threadsVal.textContent = threadsInput.value);
+
+        let workers = [];
+        let running = false;
+        let totalAttempts = 0;
+        let totalFound = 0;
+        let lastHs = 0;
+        let hsInterval = null;
+
+        // worker code as a string (we will turn into a Blob -> URL)
+        const workerCode = `
+
+            self.onmessage = async function(e) {
+            const { cmd, difficulty, seed, id } = e.data;
+            if (cmd !== 'start') return;
+            const targetPrefix = '0'.repeat(difficulty);
+            let localAttempts = 0;
+            let alive = true;
+
+            // helper: convert ArrayBuffer to hex
+            function buf2hex(buffer) {
+                const bytes = new Uint8Array(buffer);
+                let s = '';
+                for (let i=0;i<bytes.length;i++){
+                s += bytes[i].toString(16).padStart(2,'0');
+                }
+                return s;
+            }
+
+            // small async loop that doesn't block UI too much
+            while (alive) {
+                // create a pseudo-block header: seed + timestamp + random + id
+                const nonce = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER).toString(16);
+                const header = seed + '|' + Date.now().toString(16) + '|' + nonce + '|' + id;
+                const enc = new TextEncoder().encode(header);
+                try {
+                const digest = await crypto.subtle.digest('SHA-256', enc);
+                const hex = buf2hex(digest);
+                localAttempts++;
+                if ((localAttempts & 127) === 0) { // send progress every 128 attempts
+                    self.postMessage({ type: 'progress', attempts: localAttempts, lastNonce: nonce, lastHash: hex });
+                }
+                if (hex.startsWith(targetPrefix)) {
+                    // found a simulated "block"
+                    self.postMessage({ type: 'found', attempt: localAttempts, nonce, hash: hex, id });
+                }
+                } catch(err) {
+                self.postMessage({ type: 'error', message: String(err) });
+                alive = false;
+                }
+                // check for stop messages
+                const maybe = await new Promise(res => {
+                const t = setTimeout(() => res(false), 0);
+                self.onmessage = (me) => {
+                    if (me.data && me.data.cmd === 'stop') {
+                    clearTimeout(t);
+                    res(true);
+                    }
+                };
+                });
+                if (maybe) { alive = false; }
+            }
+            // worker exiting, send final
+            self.postMessage({ type:'stopped', attempts: localAttempts });
+            close();
+            };
+            `;
+
+        // create worker blob URL
+        function makeWorker() {
+            const blob = new Blob([workerCode], { type: "application/javascript" });
+            const url = URL.createObjectURL(blob);
+            const w = new Worker(url);
+            return { worker: w, url };
+        }
+
+        function startMining() {
+            if (running) return;
+            running = true;
+            totalAttempts = 0;
+            totalFound = 0;
+            lastHs = 0;
+            attemptsEl.textContent = "0";
+            blocksEl.textContent = "0";
+            lasthashEl.textContent = "—";
+            nonceEl.textContent = "—";
+            wstatusEl.textContent = "starting...";
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+
+            const diff = parseInt(diffInput.value, 10);
+            const threads = Math.max(1, Math.min(12, parseInt(threadsInput.value, 10)));
+            const seed = "simulated-block-" + Math.random().toString(16).slice(2);
+
+            // create workers
+            workers = [];
+            for (let i = 0; i < threads; i++) {
+                const { worker, url } = makeWorker();
+                worker._url = url;
+                worker._id = i;
+                worker.onmessage = (ev) => {
+                    const d = ev.data;
+                    if (d.type === "progress") {
+                        totalAttempts += d.attempts;
+                        attemptsEl.textContent = totalAttempts.toLocaleString();
+                        nonceEl.textContent = d.lastNonce;
+                        lasthashEl.textContent = d.lastHash.slice(0, 64);
+                    } else if (d.type === "found") {
+                        totalFound++;
+                        blocksEl.textContent = totalFound;
+                        // show the found hash and nonce
+                        lasthashEl.textContent = d.hash;
+                        nonceEl.textContent = d.nonce;
+                        // flash worker status
+                        wstatusEl.textContent = "found by worker " + d.id + " — continuing";
+                    } else if (d.type === "error") {
+                        wstatusEl.textContent = "error: " + d.message;
+                    } else if (d.type === "stopped") {
+                        // worker said stopped
+                        // no action needed here; cleanup later
+                    }
+                };
+                worker.postMessage({ cmd: "start", difficulty: diff, seed, id: i });
+                workers.push(worker);
+            }
+
+            // approximate hashes/sec calculation
+            let prevAttempts = 0;
+            hsInterval = setInterval(() => {
+                const cur = totalAttempts;
+                const hps = cur - prevAttempts;
+                prevAttempts = cur;
+                hsEl.textContent = hps.toLocaleString() + " H/s";
+                lastHs = hps;
+            }, 1000);
+
+            wstatusEl.textContent = "running with " + workers.length + " worker(s)";
+        }
+
+        function stopMining() {
+            if (!running) return;
+            running = false;
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            wstatusEl.textContent = "stopping...";
+            // tell workers to stop and terminate
+            for (const w of workers) {
+                try {
+                    w.postMessage({ cmd: "stop" });
+                    w.terminate();
+                    if (w._url) URL.revokeObjectURL(w._url);
+                } catch (e) {
+                    /* ignore */
+                }
+            }
+            workers = [];
+            if (hsInterval) {
+                clearInterval(hsInterval);
+                hsInterval = null;
+            }
+            wstatusEl.textContent = "stopped";
+        }
+
+        // UI events
+        startBtn.addEventListener("click", startMining);
+        stopBtn.addEventListener("click", stopMining);
+
+        // stop when leaving page
+        window.addEventListener("beforeunload", () => {
+            stopMining();
+        });
+    </script>
+
+{% endblock content %}
+    

@@ -1,0 +1,65 @@
+{% load static %}
+{% load humanize %}
+
+<div class="pt-12 pb-12 mt-4" style="padding-top: 4rem;">
+
+    <!-- <h5><span class="text-primary">My Wallet</span> - <a href="#" class="choose-account" data-bs-toggle="modal" data-bs-target="#accountWallet"><span class="dom-text">Account 1 </span> &nbsp;<i class="icon-select-down"></i></a> </h5> -->
+    <h1 class="mt-14"><a href="#"> </a></h1>
+
+    <div style="display: flex;">
+        <i class="icon icon-globe" style="font-size: 15px; color: #fff;"></i> &nbsp;
+
+        <div id="location-details" style="color: rgb(33, 161, 33);"> Detecting location...</div> &nbsp; &nbsp; | &nbsp; &nbsp; <small>For educational purpose only👏</small> 
+    </div>
+
+
+    
+    {% if request.user.is_authenticted %}
+        <h1 class="mt-3"><a href="#">${{user.profile.balance|intcomma}}</a></h1>
+    {% else %}
+        <h1 class="mt-3"><a href="#">$0.00</a></h1>
+    {% endif %}
+        
+    
+ 
+    <ul class="mt-16 grid-4 m--16">
+        <li>
+            <a href="{% url 'core:send_money' %}" class="tf-list-item d-flex flex-column gap-8 align-items-center">
+                <span class="box-round bg-surface d-flex justify-content-center align-items-center"><i class="icon icon-way" style="font-size: 20px;"></i></span>
+                Send
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'core:qrcode' %}" class="tf-list-item d-flex flex-column gap-8 align-items-center">
+                <span class="box-round bg-surface d-flex justify-content-center align-items-center"><i class="icon icon-way2" style="font-size: 20px;"></i></span>
+                Receive
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'core:buy_other' %}" class="tf-list-item d-flex flex-column gap-8 align-items-center">
+                <span class="box-round bg-surface d-flex justify-content-center align-items-center"><i class="icon icon-exchange" style="font-size: 20px;"></i></span>
+                Buy
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'core:all_wallets' %}" class="tf-list-item d-flex flex-column gap-8 align-items-center">
+                <span class="box-round bg-surface d-flex justify-content-center align-items-center"><i class="icon icon-swap" style="font-size: 20px;"></i></span>
+                Connect
+            </a>
+        </li>
+        
+        <!-- <li>
+            <a href="{% url 'core:convert' %}" class="tf-list-item d-flex flex-column gap-8 align-items-center">
+                <span class="box-round bg-surface d-flex justify-content-center align-items-center"><i class="icon icon-exchange" style="font-size: 20px;"></i></span>
+                Convert
+            </a>
+        </li> -->
+
+    </ul>
+</div>
+
+<!-- Location -->
+

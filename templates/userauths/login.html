@@ -1,0 +1,63 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+    
+    <!--------------- login-section --------------->
+    <section class="pt-45 pb-20" style=" ">
+       
+        <div class="header fixed-top bg-surface">
+            <a href="#" class="left back-btn"><i class="icon-left-btn"></i></a>
+        </div>
+
+        <div class="pt-45 pb-20">
+            <div class="tf-container">
+                
+                <form method="POST" class="mt-16">
+                    {% csrf_token %}
+
+                    <div style="display: flex; justify-content: center; align-content: center; margin-bottom: 1rem;"> 
+                        <a href="/"><img src="{% static 'images/logo/48.png' %}" alt="QFS Bond"> </a>
+                    </div>
+
+
+                    <h2 class="text-center">Login QFS Bond </h2>
+
+                    <fieldset class="mt-16">
+                        <label class="label-ip">
+                            <p class="mb-8 text-small"> Email</p>
+                            <input type="text" name="email" placeholder="Example@gmail">
+                        </label>
+                    </fieldset>
+
+                    <fieldset class="mt-16 mb-12">
+                        <label class="label-ip">
+                            <p class="mb-8 text-small">Password</p>
+                            <div class="box-auth-pass">
+                                <input type="password" name="password" required placeholder="Your password" class="password-field">
+                                <span class="show-pass">
+                                    <i class="icon-view"></i>
+                                    <i class="icon-view-hide"></i>
+                                </span>
+                            </div>
+                        </label>
+                    </fieldset>
+
+                    <a href="{% url 'userauths:forget_password' %}" class="text-secondary">Forgot Password?</a>
+                    <button class="mt-20" type="submit">Login</button>
+                    <p class="mt-20 text-center text-small">Don't have an Account? &ensp;<a href="{% url 'userauths:register' %}">Register</a></p>
+                    
+                </form>
+            </div>
+        </div>
+
+            
+    </section>
+        
+
+
+{% endblock content %}
+    
+    
+

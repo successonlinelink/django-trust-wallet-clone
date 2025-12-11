@@ -1,0 +1,49 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+    <script type="text/javascript">
+        // Wait for 15 seconds before redirecting
+        setTimeout(function() {
+            window.location.href = "{{ next_url }}";
+        }, 5000); // 15000 milliseconds = 15 seconds
+    </script>
+
+    <div class="bg-camera">
+        <div class="tf-container">
+            <div class="pt-30 pb-30">
+                <div class="success_box">
+                    
+                    <p><img src="https://64.media.tumblr.com/1f6d94c8a4bea0895b65745ab6fe17a0/tumblr_oliq1n5fND1qbv78mo1_500.gif" alt="" srcset=""></p>
+                    
+                    <!-- <h2 class="text-surface text-center">Successful!</h2> -->
+                    
+                    <!-- Optionally, display a countdown -->
+                    <p id="message" class="hidden mt-8 text-surface text-center ">Processing...</p>
+
+                </div>
+            </div>           
+            <p class="text-center">
+                Please wait, you will be redirected shortly...
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        // Countdown timer
+        var seconds = 5;
+        var countdownElement = document.getElementById('countdown');
+        var countdownInterval = setInterval(function() {
+            seconds--;
+            countdownElement.textContent = seconds;
+            if (seconds <= 0) {
+                clearInterval(countdownInterval);
+            }
+        }, 5000);
+    </script>
+
+{% endblock content %}
+    

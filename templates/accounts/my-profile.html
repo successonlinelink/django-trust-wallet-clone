@@ -1,0 +1,136 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="pt-45 pb-16" style="margin-top: 2rem;">
+        <div class="tf-container" style="">
+            <h6>Profile Settings</h6>
+            <hr>
+
+            <a href="{% url 'account:verify_account' %}" class="mt-16 d-flex justify-content-between align-items-center">
+                <div class="box-left">
+                    <h5 class="mb-8">Verification</h5>
+
+                    {% if user.profile.verified == True %}
+                        <span class="tag-xs style-2 round-2 bg-success">Verified</span>
+                    {% else %}                       
+
+                        <span class="tag-xs style-2 round-2 red">Unverified</span>
+                    {% endif %}
+
+                </div>
+                <span class="icon-arr-right text-secondary fs-12"></span>
+            </a>
+
+
+            <a href="javascript:void(0)" class="mt-16 pb-12 line-bt d-flex justify-content-between align-items-center">
+                <p class="text-small">Transaction fee tier</p>
+                <span class="text-secondary d-flex gap-8 align-items-center">Level 1 </span>
+            </a>
+            <ul class="mt-16 pb-12 line-bt">
+
+                <!-- <li data-bs-toggle="modal" data-bs-target="#changeProfile">
+                    <a href="javascript:void(0);" class="d-flex justify-content-between align-items-center">
+                        <h5>Profile picture</h5>
+                        <span class="icon-arr-right text-secondary fs-12"></span>
+                    </a>
+                </li> -->
+
+                <li>
+                    <a href="javascript:void(0);" class="mt-16 d-flex justify-content-between align-items-center">
+                        <p class="text-small">Balance</p>
+                        <span class="text-secondary d-flex gap-8 align-items-center" style="text-transform: uppercase;">{{user.profile.balance}}</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="javascript:void(0);" class="mt-16 d-flex justify-content-between align-items-center">
+                        <p class="text-small">UID</p>
+                        <span class="text-secondary d-flex gap-8 align-items-center" style="text-transform: uppercase;">{{user.profile.pid}}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="mt-16 d-flex justify-content-between align-items-center">
+                        <p class="text-small">Full Name</p>
+                        <span class="text-secondary d-flex gap-8 align-items-center"> {{profile.full_name|default:"account not verified"}}  </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="mt-16 d-flex justify-content-between align-items-center">
+                        <p class="text-small">User Name</p>
+                        <span class="text-secondary d-flex gap-8 align-items-center"> {{user.username}} </i></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="javascript:void(0)" class="mt-16 d-flex justify-content-between align-items-center">
+                        <p class="text-small">Email</p>
+                        <span class="text-secondary d-flex gap-8 align-items-center"> {{user.email}} </i></span>
+                    </a>
+                </li>
+                <!-- <li>
+                    <a href="javascript:void(0);" class="mt-16 d-flex justify-content-between align-items-center">
+                        <p class="text-small">Social media accounts</p>
+                        <span class="icon-arr-right text-secondary fs-16"></span>
+                    </a>
+                </li> -->
+            </ul>
+            <ul class="mt-16 pb-16 line-bt">
+                <!-- <li>
+                    <h5>Setting</h5>
+                </li> -->
+
+                <!-- <li>
+                    <a href="option.html" class="mt-16 d-flex justify-content-between align-items-center">
+                        <p class="text-small">Option</p>
+                        <span class="icon-arr-right text-secondary fs-12"></span>
+                    </a>
+                </li> -->
+
+                <li>
+                    <a href="{% url 'account:security' %}" class="mt-16 d-flex justify-content-between align-items-center">
+                        <p class="text-small">Security Center</p>
+                        <span class="icon-arr-right text-secondary fs-12"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:privacy' %}" class="mt-16 d-flex justify-content-between align-items-center">
+                        <p class="text-small">Privacy</p>
+                        <span class="icon-arr-right text-secondary fs-12"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'account:authority' %}" class="mt-16 d-flex justify-content-between align-items-center">
+                        <p class="text-small">Authority</p>
+                        <span class="icon-arr-right text-secondary fs-12"></span>
+                    </a>
+                </li>
+               
+            </ul>
+            <span class="text-button mt-32 d-inline-block text-red fw-6" data-bs-toggle="modal" data-bs-target="#logout">
+                Log out
+            </span>
+        </div>
+    </div>
+    <!-- <div style="margin-top: 3rem; color: #000;" >.</div> -->
+
+
+    <!-- modal logout -->
+    <div class="modal fade modalCenter" id="logout">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content modal-sm">
+                <div class="p-16 line-bt">
+                    <h4 class="text-center">Log Out</h4>
+                    <p class="mt-12 text-center text-large">Are you sure you want to sign out?</p>
+                </div>
+                <div class="grid-2">
+                   <a href="#" class="line-r text-center text-button fw-6 p-10" data-bs-dismiss="modal">Cancel</a>
+                   <a href="{% url 'userauths:logout' %}" class="text-center text-button fw-6 p-10 text-red">Log Out</a>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+    

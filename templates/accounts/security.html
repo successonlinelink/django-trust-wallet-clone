@@ -1,0 +1,169 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="pt-45 pb-16">
+        <div class="tf-container" style="margin-top: 3rem;">
+            <h5 class="mt-4">Account Management</h5>
+            <hr>
+            <ul class="pt-16 pb-16 line-bt">
+
+                <li>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="javascript:void(0);" class="left-inner">
+                            <p class="text-small">2-factor authentication</p>
+                            <p class="mt-4 text-secondary">Send verification code for secure login.</p>
+                        </a>
+                        <input class="tf-switch-check" type="checkbox" value="checkbox" name="check" checked>
+
+                    </div>
+                </li>
+                <br>
+
+                <li>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="javascript:void(0);" class="left-inner">
+                            <p class="text-small">Payment Alert</p>
+                            <p class="mt-4 text-secondary">Send notification when new payment received.</p>
+                        </a>
+                        <input class="tf-switch-check" type="checkbox" value="checkbox" name="check" checked>
+
+                    </div>
+                </li>
+
+                <li class="mt-16">
+                    <a href="javascript:void(0);" class="d-flex justify-content-between align-items-center">
+                        <p class="text-small">Notification Type</p>
+                        <div class="text-secondary d-flex gap-8 align-items-center"><span>Email </span></div>
+                    </a>
+                </li>
+
+                <li class="mt-16 ">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class="text-small text-white">Email</p>
+                        <input class="tf-switch-check" type="checkbox" value="checkbox" name="check" checked>
+                    </div>
+                </li>
+
+                <li class="mt-16">
+                    <a href="javascript:void(0);" class="d-flex justify-content-between align-items-center">
+                        <p class="text-small">Authentication Method</p>
+                        <div class="text-secondary d-flex gap-8 align-items-center"><span>Email </span></div>
+                    </a>
+                </li>
+
+            </ul>
+
+            <h4 class="mt-16">Advanced Security</h4>
+            <ul class="pt-16 pb-16 line-bt">
+                <li>
+                    <a href="javascript:void(0);" class="d-flex justify-content-between align-items-center">
+                        <div class="left-inner">
+                            <p class="text-small">Anti-phishing code</p>
+                            <p class="mt-4 text-secondary text-xsmall">A unique code will be sent to authenticate when unauthorize activity is perceived.</p>
+                        </div>
+                        
+                    </a>
+                </li>
+
+                <li class="pt-16">
+                    <a href="javascript:void(0);" class="d-flex justify-content-between align-items-center">
+                        <div class="left-inner">
+                            <p class="text-small">App lock</p>
+                            <p class="mt-4 text-secondary text-xsmall">App Lock will commence when account is verified.</p>
+                        </div>
+                        
+                    </a>
+                </li>
+
+                <li class="pt-16">
+                    <a href="javascript:void(0);" class="d-flex justify-content-between align-items-center">
+                        <div class="left-inner">
+                            <p class="text-small">Channel verification</p>
+                            <p class="mt-4 text-secondary text-xsmall"> Secure Account Funds(SAFs) is on.</p>
+                        </div>
+                        
+                    </a>
+                </li>
+                <br>
+
+                <li>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="javascript:void(0);" class="left-inner">
+                            <p class="text-small">Private Account</p>
+                        </a>
+                        <input class="tf-switch-check" type="checkbox" value="checkbox" name="check" checked readonly>
+
+                    </div>
+                </li>
+
+            </ul>
+
+            <h4 class="mt-16">Account Management</h4>
+            <ul class="pt-16 pb-16">
+                <li>
+                    <a href="{% url 'account:change_password' %}" class="d-flex justify-content-between align-items-center">
+                        <p class="text-small">Change Password</p>
+                        <i class="icon-arr-right fs-12 text-secondary"></i>
+                    </a>
+                </li>
+                <li class="mt-16" data-bs-toggle="modal" data-bs-target="#equipment">
+                    <a href="javascript:void(0);" class="d-flex justify-content-between align-items-center">
+                        <p class="text-small">Device Management</p>
+                        <i class="icon-arr-right fs-12 text-secondary"></i>
+                    </a>
+                </li>
+                <li class="mt-16">
+                    <a href="{% url 'account:delete_account' %}" class="d-flex justify-content-between align-items-center">
+                        <p class="text-small">Freeze/Delete Account</p>
+                        <i class="icon-arr-right fs-12 text-secondary"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <p style="margin-top: 3rem;" >.</p>
+
+    <!-- modal equipment -->
+    <div class="modal fade modalRight" id="equipment">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="header fixed-top bg-surface d-flex justify-content-center align-items-center">
+                    <span class="left" data-bs-dismiss="modal"  aria-hidden="true"><i class="icon-left-btn"></i></span>
+                    <h3>Device Management</h3>
+                </div>
+
+                <div class="overflow-auto pt-45 pb-16">
+                    <div class="tf-container">
+                        <ul class="mt-4">
+                            <li>
+                                <div class="d-flex gap-12">
+                                    <!-- <i class="icon-mobile"></i> -->
+                                    <div class="content pb-8 line-bt flex-grow-1">
+                                        <br>
+                                        <h5><strong>Device:</strong> <span id="device" style="color: rgb(33, 161, 33);"> Detecting...</span></h5>
+                                        <br>
+                                        <h5>Location: <span id="location-details" style="color: rgb(33, 161, 33);"> &nbsp; &nbsp; Detecting location...</span></h5>
+                                        <br>
+                                        <!-- <p class="text-small mt-4">Last place: USA</p> -->
+                                        <h6 class="text-small mt-4">IP Address: &nbsp; &nbsp; <span id="ip" style="color: rgb(33, 161, 33);">Loading...</span></h6>
+                                        <!-- <p class="text-small mt-4">Last seen: 2023-01-01 10:51:43</p> -->
+                                    </div>  
+                                </div>
+                            </li>
+                            
+                           
+                        </ul>
+                    </div>
+                        
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+    

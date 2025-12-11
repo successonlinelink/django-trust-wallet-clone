@@ -1,0 +1,83 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="header fixed-top bg-surface align-items-center p-2" style="display: flex; justify-content: space-between;">
+        <a href="{{ request.META.HTTP_REFERER|default:'blog:index' }}" class=" ">
+            <i class="icon-left-btn"></i>
+        </a>
+
+        <div style="display: flex;">
+            <i class="icon icon-globe" style="font-size: 15px; color: #fff;"></i> &nbsp;
+
+            <div id="location-details" style="color: rgb(33, 161, 33);"> Detecting location...</div>
+        </div>
+        
+        <!-- <a href="#notification" style="font-size: 20px; margin-top: 7px;" class="right icon-noti box-noti " data-bs-toggle="modal"></a> -->
+        <a href="#notification" data-bs-toggle="modal">
+            <i class="icon-noti box-noti " ></i>
+        </a>
+
+        <!-- <a href="qr-code.html" class="right text-secondary"><i class="icon-barcode"></i></a> -->
+    </div>
+    <div class="pt-45 pb-16">
+        <div class="bg-menuDark tf-container">
+            <a href="{% url 'account:profile' %}" class="pt-12 pb-12 mt-4 d-flex justify-content-between align-items-center">
+                <div class="box-account">
+                    <img src="{{user.profile.image.url|default:'https://www.transparentpng.com/download/user/gray-user-profile-icon-png-fP8Q1P.png'}}" alt="img" class="avt">
+                    <div class="info">
+                        <p style="font-size: 17px;">{{user.username|default:"login"}}</p>
+                        <!-- <p class="text-small text-secondary mt-8 mb-8">Profile and settings</p> -->
+                         
+                        {% if user.profile.verified == True %}
+                            <span class="tag-xs style-2 round-2 bg-success mt-2">Verified</span>
+                        {% else %}                       
+
+                            <span class="tag-xs style-2 round-2 red mt-2">Unverified</span>
+                        {% endif %}
+                            
+
+                    </div>
+                </div>
+                <span class="arr-right"><i class="icon-arr-right"></i></span>    
+            </a>
+            
+        </div>
+
+        <div class="bg-menuDark tf-container">
+            <div class="pt-12 pb-12 mt-4">
+                <h5>Buy cryptocurrencies</h5>
+                {% include 'includes/buy_crypto.html' %}
+            </div>
+        </div>
+
+        <div class="bg-menuDark tf-container">
+            <div class="pt-12 pb-12 mt-4">
+                <h5>Exchange</h5>
+                {% include 'includes/exchange.html' %}
+            </div>
+        </div>
+
+        <div class="bg-menuDark tf-container">
+            <div class="pt-12 pb-12 mt-4">
+                <h5>Help center</h5>
+                {% include 'includes/help_center.html' %}
+            </div>
+        </div>
+
+        <div class="bg-menuDark tf-container">
+            {% include 'includes/about.html' %}
+        </div>
+
+        <div class="mt-20">
+            .
+        </div>
+
+
+    </div>
+
+
+{% endblock content %}
+    

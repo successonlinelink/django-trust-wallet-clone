@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <title>Live Crypto Interface — Dark Responsive Dashboard</title>
+      <link rel="icon" href="data:,">
+      <style>
+         :root {
+         --bg:#000;
+         --card:#0a0d14;
+         --muted:#a0aec0;
+         --accent:#00ffae;
+         --danger:#ff4d4d;
+         }
+         * { box-sizing:border-box; margin:0; padding:0; font-family:Inter,Segoe UI,Roboto,Arial,sans-serif; }
+         body {
+         background:var(--bg);
+         color:#e2e8f0;
+         display:flex;
+         justify-content:center;
+         align-items:flex-start;
+         min-height:100vh;
+         padding:10px;
+         }
+         .app {
+         width:100%;
+         max-width:1200px;
+         display:grid;
+         grid-template-columns:2fr 1fr;
+         gap:15px;
+         }
+         header {
+         grid-column:1 / -1;
+         display:flex;
+         flex-wrap:wrap;
+         justify-content:space-between;
+         align-items:center;
+         margin-bottom:10px;
+         gap:10px;
+         }
+         .brand {
+         display:flex;
+         align-items:center;
+         gap:8px;
+         }
+         .logo {
+         width:36px; height:36px;
+         border-radius:8px;
+         background:linear-gradient(135deg,#00ffae,#00b3ff);
+         display:flex; justify-content:center; align-items:center;
+         font-weight:bold; color:#000;
+         }
+         .controls {
+         display:flex;
+         flex-wrap:wrap;
+         gap:8px;
+         align-items:center;
+         }
+         select, input[type=search] {
+         background:var(--card);
+         border:1px solid #1f2937;
+         padding:6px 10px;
+         border-radius:8px;
+         color:#e2e8f0;
+         font-size:14px;
+         }
+         .card {
+         background:var(--card);
+         border-radius: 5px;
+         padding:12px;
+         /* margin-right: 10px; */
+         border:1px solid #1e293b;
+         }
+         .market {
+         display:flex;
+         justify-content:space-between;
+         align-items:center;
+         flex-wrap:wrap;
+         gap:8px;
+         }
+         .price { font-size:24px; font-weight:700; }
+         .change { font-weight:bold; padding:4px 10px; border-radius:8px; }
+         .change.up { color:var(--accent); }
+         .change.down { color:var(--danger); }
+         .chart-wrap { height:280px; }
+         .orderbook, .trades {
+         max-height:220px;
+         overflow-y:auto;
+         font-family:monospace;
+         font-size:12px;
+         word-wrap:break-word;
+         }
+         .asks .row { color:#ff9aa2; }
+         .bids .row { color:#9bffcf; }
+         .trade.up { color:var(--accent); }
+         .trade.down { color:var(--danger); }
+         .trade-form {
+         display:flex;
+         flex-wrap:wrap;
+         gap:8px;
+         margin-top:10px;
+         }
+         .btn {
+         border:none; cursor:pointer;
+         padding:8px 14px;
+         border-radius:8px;
+         font-weight:600;
+         font-size:14px;
+         }
+         .btn.buy { background:var(--accent); color:#000; }
+         .btn.sell { background:var(--danger); color:#fff; }
+         footer {
+         grid-column:1 / -1;
+         text-align:center;
+         color:var(--muted);
+         margin-top:20px;
+         font-size:13px;
+         }
+         /* ---------- RESPONSIVE FIXES ---------- */
+         @media (max-width:900px) {
+         .app { grid-template-columns:1fr; }
+         .chart-wrap { height:250px; }
+         }
+         @media (max-width:600px) {
+         body { padding:8px; }
+         .app { gap:10px; }
+         header { flex-direction:column; align-items:flex-start; }
+         .price { font-size:20px; }
+         select, input[type=search] { width:100%; }
+         .trade-form input, .trade-form select { flex:1 1 100%; }
+         }
+         @media (max-width:360px) {
+         .chart-wrap { height:220px; }
+         .price { font-size:18px; }
+         .change { padding:3px 8px; font-size:12px; }
+         .card { padding:10px; }
+         .orderbook, .trades { font-size:11px; }
+         footer { font-size:11px; }
+         }
+      </style>
+   </head>
+   <body>
+      <div class="app">
+         <header>
+            <div class="" style="margin-top: 1rem; margin-bottom: 1rem;">      
+               <a href="{% url 'userauths:register' %}" class="btn buy" style="text-decoration: none; margin-right: 1rem;">Reister</a>
+               <a href="{% url 'userauths:login' %}" class="btn buy" style="text-decoration: none;">Login</a>
+            </div>
+            <div class="brand">
+               <div class="logo">QFS</div>
+               <div>
+                  <h2>QFSBond</h2>
+                  <p style="font-size:13px;color:var(--muted)"> The future of Secure Assets </p>
+               </div>
+            </div>
+            <div class="controls">
+               <select id="pairSelect">
+                  <option value="xrpusdt">XRP/USDT</option>
+                  <!-- <option value="btcusdt">BTC/USDT</option> -->
+                  <option value="ethusdt">ETH/USDT</option>
+                  <option value="bnbusdt">BNB/USDT</option>
+                  <option value="adausdt">ADA/USDT</option>
+                  <option value="solusdt">SOL/USDT</option>
+                  <option value="dogeusdt">DOGE/USDT</option>
+                  <option value="trxusdt">TRX/USDT</option>
+                  <option value="maticusdt">MATIC/USDT</option>
+                  <option value="ltcusdt">LTC/USDT</option>
+               </select>
+               <input id="filter" type="search" placeholder="Filter trades..." />
+            </div>
+         </header>
+         <div class="card market">
+            <div>
+               <h3 id="pairLabel">XRP/USDT</h3>
+               <div class="price" id="price">-</div>
+            </div>
+            <div>
+               <div id="change" class="change">-</div>
+               <div id="highlow" style="color:var(--muted);font-size:13px;">-</div>
+            </div>
+         </div>
+         <div class="card chart-wrap">
+            <canvas id="priceChart"></canvas>
+         </div>
+         <div class="card">
+            <h3>Order Book</h3>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+               <div style="flex:1;min-width:130px;">
+                  <h4 style="color:var(--muted)">Asks</h4>
+                  <div id="asks" class="orderbook asks"></div>
+               </div>
+               <div style="flex:1;min-width:130px;">
+                  <h4 style="color:var(--muted)">Bids</h4>
+                  <div id="bids" class="orderbook bids"></div>
+               </div>
+            </div>
+         </div>
+         <div class="card">
+            <h3>Recent Trades</h3>
+            <div id="trades" class="trades"></div>
+         </div>
+         <div class="card">
+            <h3>Create Order</h3>
+            <div class="trade-form">
+               <select id="side">
+                  <option value="BUY">BUY</option>
+                  <option value="SELL">SELL</option>
+               </select>
+               <input id="qty" placeholder="Qty" />
+               <input id="px" placeholder="Price" />
+               <button id="place" class="btn buy">Place</button>
+            </div>
+            <p style="color:var(--muted);font-size:13px;margin-top:20px;"> </p>
+         </div>
+         <footer>QFSBond Trading and Activities</footer>
+      </div>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+         const pairSelect=document.getElementById('pairSelect');
+         const pairLabel=document.getElementById('pairLabel');
+         const priceEl=document.getElementById('price');
+         const changeEl=document.getElementById('change');
+         const highlowEl=document.getElementById('highlow');
+         const asksEl=document.getElementById('asks');
+         const bidsEl=document.getElementById('bids');
+         const tradesEl=document.getElementById('trades');
+         const filter=document.getElementById('filter');
+         
+         let wsTicker,wsDepth,wsTrades,chart;
+         const chartData={labels:[],datasets:[{label:'Price',data:[],borderColor:'#00ffae',tension:0.3}]};
+         
+         function symbolToLabel(s){return s.toUpperCase().replace('USDT','/USDT');}
+         
+         function connect(symbol){
+           [wsTicker,wsDepth,wsTrades].forEach(s=>{if(s) s.close()});
+           const base='wss://stream.binance.com:9443/ws';
+           const lower=symbol.toLowerCase();
+         
+           wsTicker=new WebSocket(`${base}/${lower}@ticker`);
+           wsDepth=new WebSocket(`${base}/${lower}@depth20@100ms`);
+           wsTrades=new WebSocket(`${base}/${lower}@trade`);
+         
+           wsTicker.onmessage=e=>{
+             const d=JSON.parse(e.data);
+             const p=parseFloat(d.c);
+             const c=parseFloat(d.P);
+             priceEl.textContent=p.toLocaleString();
+             changeEl.textContent=(c>=0?'+':'')+c.toFixed(2)+'%';
+             changeEl.className='change '+(c>=0?'up':'down');
+             highlowEl.textContent=`${parseFloat(d.h)} / ${parseFloat(d.l)}`;
+             addChart(p);
+           };
+           wsDepth.onmessage=e=>{
+             const d=JSON.parse(e.data);
+             renderOB(d.asks.slice(0,15),d.bids.slice(0,15));
+           };
+           wsTrades.onmessage=e=>{
+             const d=JSON.parse(e.data);
+             renderTrade(d);
+           };
+         }
+         
+         function addChart(p){
+           chartData.labels.push('');
+           chartData.datasets[0].data.push(p);
+           if(chartData.labels.length>40){
+             chartData.labels.shift();
+             chartData.datasets[0].data.shift();
+           }
+           chart.update('none');
+         }
+         
+         function renderOB(a,b){
+           asksEl.innerHTML=''; bidsEl.innerHTML='';
+           a.forEach(x=>{
+             const r=document.createElement('div');
+             r.className='row';
+             r.textContent=`${parseFloat(x[0]).toFixed(4)} | ${parseFloat(x[1]).toFixed(4)}`;
+             asksEl.appendChild(r);
+           });
+           b.forEach(x=>{
+             const r=document.createElement('div');
+             r.className='row';
+             r.textContent=`${parseFloat(x[0]).toFixed(4)} | ${parseFloat(x[1]).toFixed(4)}`;
+             bidsEl.appendChild(r);
+           });
+         }
+         
+         function renderTrade(t){
+           const p=parseFloat(t.p),q=parseFloat(t.q),sell=t.m;
+           const div=document.createElement('div');
+           div.className='trade '+(sell?'down':'up');
+           div.textContent=`${new Date(t.T).toLocaleTimeString()} | ${p.toFixed(4)} | ${q}`;
+           const f=filter.value.trim().toLowerCase();
+           if(f&&!div.textContent.toLowerCase().includes(f))return;
+           tradesEl.prepend(div);
+           if(tradesEl.children.length>100) tradesEl.removeChild(tradesEl.lastChild);
+         }
+         
+         pairSelect.onchange=()=>{
+           pairLabel.textContent=symbolToLabel(pairSelect.value);
+           chartData.labels=[]; chartData.datasets[0].data=[];
+           chart.update();
+           connect(pairSelect.value);
+         };
+         
+         document.getElementById('place').onclick=()=>alert('Please Login to access this feature.');
+         
+         const ctx=document.getElementById('priceChart').getContext('2d');
+         chart=new Chart(ctx,{type:'line',data:chartData,options:{
+           animation:false,
+           plugins:{legend:{display:false}},
+           scales:{x:{display:false},y:{display:true}}
+         }});
+         
+         connect('xrpusdt');
+      </script>
+   </body>
+</html>

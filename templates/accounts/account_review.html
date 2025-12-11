@@ -1,0 +1,50 @@
+{% extends 'partials/base.html' %}
+{% load static %}
+
+
+{% block content %}
+
+    <div class="header fixed-top bg-surface d-flex justify-content-center align-items-center">
+        <a href="javascript:void(0);" class="left back-btn"><i class="icon-left-btn"></i></a>
+        <h3>Under Review</h3>
+    </div>
+
+    <div class="pt-45 pb-16">
+        <div class="tf-container">
+            <div class="mt-40">
+
+                <h3>Verification Under Review</h3>
+                
+                <ul class="mt-20">
+                    <li class="d-flex gap-8">
+                        <i class="icon-round-check xs bg-white flex-shrink-0"></i>
+                        <p class="text-large">
+                            Your verification details are under review.
+                        </p>
+                    </li>
+
+                    <li class="mt-16 d-flex gap-8">
+                        <i class="icon-round-check xs bg-white flex-shrink-0"></i>
+                        <p class="text-large">It will take a few minutes/hrs for us to review and approve your verification details. </p>
+                    </li>
+                    
+                    <li class="mt-16 d-flex gap-8">
+                        <i class="icon-round-check xs bg-white flex-shrink-0"></i>
+                        <p class="text-large">Kindly contact support if it takes longer than you expect. </p>
+                    </li>
+
+                    <!-- <li class="mt-16 d-flex gap-8">
+                        <i class="icon-round-check xs bg-white flex-shrink-0"></i>
+                        <p class="text-large">
+                            Please make that your details
+                        </p>
+                    </li> -->
+
+                </ul>
+                <a href="/" class="mt-40 tf-btn lg">Done&nbsp; > </a>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
+    
